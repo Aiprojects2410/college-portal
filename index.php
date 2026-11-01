@@ -50,7 +50,7 @@
     .search-box-mndiv {
       width: 100%;
       max-width: 650px;
-      margin: 0 auto 30px;
+      margin: 0 auto 25px;
     }
     .srch-cntr {
       width: 100%;
@@ -105,6 +105,7 @@
       padding: 25px;
       border-radius: 6px;
       border: 1px solid #e1eff5;
+      display: none;
     }
     .preview-innr-div {
       width: 100%;
@@ -163,6 +164,32 @@
       border-radius: 2px;
     }
 
+    .placeholder-prompt {
+      text-align: center;
+      padding: 60px 20px;
+      background: #fbfdff;
+      border: 2px dashed #d7e8f0;
+      border-radius: 6px;
+      color: #6a8292;
+      margin-top: 10px;
+    }
+    .placeholder-prompt i {
+      font-size: 48px;
+      color: #158fb9;
+      margin-bottom: 14px;
+      display: block;
+    }
+    .placeholder-prompt h3 {
+      font-size: 18px;
+      color: #0e334e;
+      margin: 0 0 8px 0;
+      font-weight: 600;
+    }
+    .placeholder-prompt p {
+      font-size: 14px;
+      margin: 0;
+    }
+
     @media print {
       body {
         background: #fff;
@@ -172,13 +199,14 @@
         padding: 0;
         max-width: 100%;
       }
-      .search-box-mndiv, .action-bar, .sub-title, h1 {
+      .search-box-mndiv, .action-bar, .sub-title, h1, .placeholder-prompt {
         display: none !important;
       }
       .preview-mn-div {
         background: transparent;
         padding: 0;
         border: none;
+        display: block !important;
       }
       .preview-innr-div {
         padding: 0;
@@ -219,9 +247,9 @@
 
       <div class="search-box-mndiv">
         <div class="srch-cntr">
-          <!-- Direct Roll Number Input -->
+          <!-- Direct Roll Number Input (Blank Initially) -->
           <div class="srch-bar">
-            <input type="text" id="serachimages" class="form-control" placeholder="Enter Roll Number (e.g. 23261021)" value="23261021" autofocus>
+            <input type="text" id="serachimages" class="form-control" placeholder="Enter Roll Number to search marksheet..." value="" autofocus>
           </div>
           <!-- Direct Search Button -->
           <div class="srch-btn">
@@ -230,7 +258,15 @@
         </div>
       </div>
 
-      <div class="preview-mn-div">
+      <!-- Initial Blank Placeholder Prompt -->
+      <div id="initialPrompt" class="placeholder-prompt">
+        <i class="fa fa-search-plus"></i>
+        <h3>Search Student Result</h3>
+        <p>Please enter the student's Roll Number in the search box above and click <b>Search</b> to view the Statement of Marks.</p>
+      </div>
+
+      <!-- Result View (Hidden Initially, Displayed Only on Search) -->
+      <div class="preview-mn-div" id="resultPreviewContainer">
         <div class="preview-innr-div">
           <div class="action-bar" id="actionBar">
             <span class="status-text" id="statusLabel"><i class="fa fa-id-card"></i> Marksheet View</span>
@@ -238,7 +274,7 @@
           </div>
 
           <div id="imageContainer" class="image-box">
-            <img id="imgsrc" src="img/noimage.jpg" alt="Marksheet">
+            <img id="imgsrc" src="" alt="Marksheet">
           </div>
         </div>
       </div>
@@ -255,18 +291,21 @@
       return;
     }
 
-    $("#statusLabel").html('<i class="fa fa-spinner fa-spin"></i> Loading result for Roll No: <b>' + roll + '</b>...');
+    // Hide the initial placeholder and show the result view
+    $("#initialPrompt").hide();
+    $("#resultPreviewContainer").show();
+    $("#statusLabel").html('<i class="fa fa-spinner fa-spin"></i> Searching marksheet for Roll No: <b>' + roll + '</b>...');
 
-    // Priority candidates to check for this roll number
+    // Candidates to check for this roll number
     var candidates = [
-      'img/' + roll + '.jpg',
       'img/' + roll + '.png',
+      'img/' + roll + '.jpg',
       'img/' + roll + '.jpeg',
       'img/' + roll + '.webp',
-      'img/' + roll + '_result.jpg',
       'img/' + roll + '_result.png',
-      'img/' + roll + '_sem3.jpg',
-      'img/' + roll + '_sem3.png'
+      'img/' + roll + '_result.jpg',
+      'img/' + roll + '_sem3.png',
+      'img/' + roll + '_sem3.jpg'
     ];
 
     function checkCandidate(index) {
@@ -291,13 +330,6 @@
 
     checkCandidate(0);
   }
-
-  // Auto search on page load
-  window.addEventListener("DOMContentLoaded", function() {
-    if ($("#serachimages").val().trim() !== "") {
-      searchinRepo();
-    }
-  });
 
   document.getElementById("serachimages").addEventListener("keypress", function(e) {
     if (e.key === "Enter") {
