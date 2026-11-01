@@ -186,7 +186,23 @@
       </div>
       <div class="preview-mn-div">
         <div class="preview-innr-div">
-          <div class="image-box">
+          <!-- Official PDF Marksheet Viewer (GEHURA Benchmark) -->
+          <div id="pdfContainer" style="display: none; width: 100%;">
+            <div style="background: #0e334e; color: #fff; padding: 10px 18px; border-radius: 4px 4px 0 0; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+              <span style="font-size: 14px; font-weight: 600;"><i class="fa fa-file-pdf" style="color: #ff5252; margin-right: 6px;"></i> Official Marksheet Document (Vector PDF)</span>
+              <div style="display: flex; gap: 8px;">
+                <a id="pdfOpenBtn" href="#" target="_blank" class="btn btn-sm" style="background: #158fb9; color: #fff; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 3px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
+                  <i class="fa fa-external-link-alt"></i> Fullscreen
+                </a>
+                <a id="pdfDownloadBtn" href="#" download class="btn btn-sm" style="background: #2e7d32; color: #fff; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 3px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
+                  <i class="fa fa-download"></i> Download PDF
+                </a>
+              </div>
+            </div>
+            <iframe id="pdfFrame" src="" style="width: 100%; height: 950px; border: 1px solid #0e334e; border-top: none; background: #525659; border-radius: 0 0 4px 4px; display: block;"></iframe>
+          </div>
+
+          <div id="imageContainer" class="image-box">
             <img id="imgsrc" src="img/noimage.jpg">
           </div>
         </div>
@@ -195,23 +211,6 @@
   </div>
 
   <script>
-  function tryLoadImage(paths, fallbackPath, callback) {
-    if (!paths || paths.length === 0) {
-      callback(fallbackPath);
-      return;
-    }
-    var currentPath = paths[0];
-    var remaining = paths.slice(1);
-    var img = new Image();
-    img.onload = function() {
-      callback(currentPath);
-    };
-    img.onerror = function() {
-      tryLoadImage(remaining, fallbackPath, callback);
-    };
-    img.src = currentPath;
-  }
-
   function searchinRepo(){
     var roll = $("#serachimages").val().trim();
     var sem = $("#searchSemester").val();
@@ -222,18 +221,57 @@
       return;
     }
 
-    // Possible file variations for this roll number and semester
     var candidates = [
-      'img/' + roll + '_sem' + sem + '.jpg.png',
-      'img/' + roll + '_sem' + sem + '.jpg',
-      'img/' + roll + '_sem' + sem + '.png',
-      'img/' + roll + '.jpg',
-      'img/' + roll + '.png'
+      { url: 'img/' + roll + '_sem' + sem + '.pdf', type: 'pdf' },
+      { url: 'img/' + roll + '.pdf', type: 'pdf' },
+      { url: 'img/' + roll + '_sem' + sem + '.jpg.png', type: 'image' },
+      { url: 'img/' + roll + '_sem' + sem + '.jpg', type: 'image' },
+      { url: 'img/' + roll + '_sem' + sem + '.png', type: 'image' },
+      { url: 'img/' + roll + '.jpg', type: 'image' },
+      { url: 'img/' + roll + '.png', type: 'image' }
     ];
 
-    tryLoadImage(candidates, 'img/noimage.jpg', function(selectedSrc) {
-      $("#imgsrc").attr('src', selectedSrc);
-    });
+    function checkCandidate(index) {
+      if (index >= candidates.length) {
+        $("#pdfContainer").hide();
+        $("#imageContainer").show();
+        $("#imgsrc").attr('src', 'img/noimage.jpg');
+        return;
+      }
+
+      var item = candidates[index];
+
+      if (item.type === 'pdf') {
+        fetch(item.url, { method: 'HEAD' })
+          .then(function(res) {
+            if (res.ok) {
+              $("#imageContainer").hide();
+              $("#pdfFrame").attr('src', item.url);
+              $("#pdfOpenBtn").attr('href', item.url);
+              $("#pdfDownloadBtn").attr('href', item.url);
+              $("#pdfContainer").show();
+            } else {
+              checkCandidate(index + 1);
+            }
+          })
+          .catch(function() {
+            checkCandidate(index + 1);
+          });
+      } else {
+        var img = new Image();
+        img.onload = function() {
+          $("#pdfContainer").hide();
+          $("#imgsrc").attr('src', item.url);
+          $("#imageContainer").show();
+        };
+        img.onerror = function() {
+          checkCandidate(index + 1);
+        };
+        img.src = item.url;
+      }
+    }
+
+    checkCandidate(0);
   }
 
   document.getElementById("serachimages").addEventListener("keypress", function(e) {
