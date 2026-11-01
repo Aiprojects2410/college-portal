@@ -1,97 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>Result Search | Braj Sagar Degree College</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Photo Search | BRAJ SAGAR DEGREE COLLEGE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <style type="text/css">
-    @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&subset=latin-ext");
+    @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese");
 
     * { box-sizing: border-box; }
     body {
       margin: 0px;
       padding: 0px;
-      font-family: 'Open Sans', Arial, sans-serif; 
+      font-family: 'Open Sans', sans-serif; 
       background: rgba(21, 143, 185, 0.25);
       min-height: 100vh;
     }
     .main-container {
       width: 100%;
-      min-height: 100vh;
+      height: 100%;
       margin: auto;
-      padding: 30px 15px 50px;
+      padding-bottom: 40px;
     }
     .inner-container {
-      width: 100%;
-      max-width: 980px;
+      width: 1000px;
+      max-width: 95%;
+      height: auto;
       margin: auto;
-      padding: 35px 40px;
+      padding: 40px 50px;
       background: #fff;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      border-radius: 6px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
     }
     .inner-container h1 {
-      margin: 0 0 8px 0;
+      margin: 0px;
       text-align: center;
-      font-size: 24px;
+      font-size: 26px;
       color: #158fb9;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
-    .sub-title {
-      text-align: center;
-      font-size: 14px;
-      color: #666;
-      margin: 0 0 25px 0;
       font-weight: 600;
+      text-transform: capitalize;
+      letter-spacing: 1px;
     }
     .search-box-mndiv {
       width: 100%;
-      max-width: 650px;
-      margin: 0 auto 25px;
+      height: auto;
+      margin: auto;
+      margin-top: 25px;
     }
     .srch-cntr {
       width: 100%;
+      height: auto;
       display: flex;
       flex-direction: row;
       align-items: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
     .srch-bar {
       flex: 1;
     }
     .srch-bar .form-control {
       width: 100%;
-      height: 46px;
+      height: 42px;
+      box-shadow: none;
       outline: 0 none;
-      border: 1px solid #158fb9;
-      border-right: none;
-      font-size: 15px;
-      font-weight: 500;
-      border-radius: 4px 0px 0px 4px;
+      border: 1px solid #d6daea;
+      border-right: 0px;
+      font-size: 13.5px;
+      font-weight: 400;
+      border-radius: 3px 0px 0px 3px;
       color: #001737;
-      padding: 10px 18px;
-    }
-    .srch-bar .form-control:focus {
-      background: #fbfdff;
+      padding: 8px 16px;
     }
     .srch-btn {
       width: 140px;
     }
     .srch-btn .btn {
-      width: 100%;
-      height: 46px;
-      border-radius: 0px 4px 4px 0px;
+      width: 140px;
+      height: 42px;
+      border-radius: 0px 3px 3px 0px;
+      box-shadow: none;
       outline: 0 none;
       border: 1px solid #0e334e;
-      line-height: 44px;
+      line-height: 42px;
       font-size: 15px;
       font-weight: 600;
-      background: #0e334e;
+      background: rgba(14, 51, 78, 0.85);
       color: #fff;
       padding: 0px;
+      text-transform: capitalize;
+      letter-spacing: 0.5px;
       cursor: pointer;
       transition: background 0.2s;
     }
@@ -101,140 +95,35 @@
     }
     .preview-mn-div {
       width: 100%;
-      background: #f4fbfd;
-      padding: 25px;
-      border-radius: 6px;
-      border: 1px solid #e1eff5;
-      display: none;
+      height: auto;
+      margin: auto;
+      margin-top: 35px;
+      background: #eff9f9;
+      padding: 20px;
+      min-height: 450px;
     }
     .preview-innr-div {
       width: 100%;
+      height: auto;
+      margin: auto;
       background: #fff;
-      padding: 20px;
-      border-radius: 4px;
-      box-shadow: 0 1px 6px rgba(0,0,0,0.04);
-    }
-    .action-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid #eee;
-    }
-    .status-text {
-      font-size: 14px;
-      font-weight: 600;
-      color: #0e334e;
-    }
-    .print-btn {
-      background: #158fb9;
-      color: #fff;
-      border: none;
-      padding: 8px 18px;
-      font-size: 13px;
-      font-weight: 600;
-      border-radius: 4px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: background 0.2s;
-    }
-    .print-btn:hover {
-      background: #0e334e;
+      padding: 15px;
+      min-height: 420px;
     }
     .image-box {
       width: 100%;
+      height: auto;
+      margin: auto;
       min-height: 400px;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #fafafa;
-      padding: 15px;
-      border-radius: 4px;
-      border: 1px dashed #d1e3ea;
     }
     .image-box img {
       max-width: 100%;
       height: auto;
       display: block;
       margin: 0 auto;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.1);
-      border-radius: 2px;
-    }
-
-    .placeholder-prompt {
-      text-align: center;
-      padding: 60px 20px;
-      background: #fbfdff;
-      border: 2px dashed #d7e8f0;
-      border-radius: 6px;
-      color: #6a8292;
-      margin-top: 10px;
-    }
-    .placeholder-prompt i {
-      font-size: 48px;
-      color: #158fb9;
-      margin-bottom: 14px;
-      display: block;
-    }
-    .placeholder-prompt h3 {
-      font-size: 18px;
-      color: #0e334e;
-      margin: 0 0 8px 0;
-      font-weight: 600;
-    }
-    .placeholder-prompt p {
-      font-size: 14px;
-      margin: 0;
-    }
-
-    @media print {
-      body {
-        background: #fff;
-      }
-      .inner-container {
-        box-shadow: none;
-        padding: 0;
-        max-width: 100%;
-      }
-      .search-box-mndiv, .action-bar, .sub-title, h1, .placeholder-prompt {
-        display: none !important;
-      }
-      .preview-mn-div {
-        background: transparent;
-        padding: 0;
-        border: none;
-        display: block !important;
-      }
-      .preview-innr-div {
-        padding: 0;
-        box-shadow: none;
-      }
-      .image-box {
-        padding: 0;
-        border: none;
-        background: transparent;
-      }
-      .image-box img {
-        max-width: 100%;
-        box-shadow: none;
-      }
-    }
-    @media (max-width: 768px) {
-      .inner-container {
-        padding: 20px 15px;
-      }
-      .inner-container h1 {
-        font-size: 19px;
-      }
-      .preview-mn-div {
-        padding: 12px;
-      }
-      .preview-innr-div {
-        padding: 10px;
-      }
     }
   </style>
 </head>
@@ -243,38 +132,23 @@
   <div class="main-container">
     <div class="inner-container">
       <h1>BRAJ SAGAR DEGREE COLLEGE, PURAILA, ETAWAH (U.P.)</h1>
-      <p class="sub-title">Student Statement of Marks / Result Portal</p>
-
       <div class="search-box-mndiv">
         <div class="srch-cntr">
-          <!-- Direct Roll Number Input (Blank Initially) -->
+          <!-- Roll Number Input (Blank initially) -->
           <div class="srch-bar">
-            <input type="text" id="serachimages" class="form-control" placeholder="Enter Roll Number to search marksheet..." value="" autofocus>
+            <input type="text" id="serachimages" class="form-control" placeholder="Enter Roll Number" value="">
           </div>
-          <!-- Direct Search Button -->
+          <!-- Search Button -->
           <div class="srch-btn">
-            <button type="button" onclick="searchinRepo();" class="btn"><i class="fa fa-search"></i> Search</button>
+            <button type="button" onclick="searchinRepo();" class="btn btn-dark">Search</button>
           </div>
         </div>
       </div>
-
-      <!-- Initial Blank Placeholder Prompt -->
-      <div id="initialPrompt" class="placeholder-prompt">
-        <i class="fa fa-search-plus"></i>
-        <h3>Search Student Result</h3>
-        <p>Please enter the student's Roll Number in the search box above and click <b>Search</b> to view the Statement of Marks.</p>
-      </div>
-
-      <!-- Result View (Hidden Initially, Displayed Only on Search) -->
-      <div class="preview-mn-div" id="resultPreviewContainer">
+      <div class="preview-mn-div">
         <div class="preview-innr-div">
-          <div class="action-bar" id="actionBar">
-            <span class="status-text" id="statusLabel"><i class="fa fa-id-card"></i> Marksheet View</span>
-            <button type="button" class="print-btn" onclick="window.print();"><i class="fa fa-print"></i> Print Marksheet</button>
-          </div>
-
           <div id="imageContainer" class="image-box">
-            <img id="imgsrc" src="" alt="Marksheet">
+            <!-- Displays noimage.jpg (Results magnifying glass) by default -->
+            <img id="imgsrc" src="img/noimage.jpg" alt="Result">
           </div>
         </div>
       </div>
@@ -291,12 +165,6 @@
       return;
     }
 
-    // Hide the initial placeholder and show the result view
-    $("#initialPrompt").hide();
-    $("#resultPreviewContainer").show();
-    $("#statusLabel").html('<i class="fa fa-spinner fa-spin"></i> Searching marksheet for Roll No: <b>' + roll + '</b>...');
-
-    // Candidates to check for this roll number
     var candidates = [
       'img/' + roll + '.png',
       'img/' + roll + '.jpg',
@@ -310,9 +178,9 @@
 
     function checkCandidate(index) {
       if (index >= candidates.length) {
-        // Fallback: no image found for this roll number
+        // Fallback to noimage.jpg if not found
         $("#imgsrc").attr('src', 'img/noimage.jpg');
-        $("#statusLabel").html('<i class="fa fa-exclamation-triangle" style="color: #e65100;"></i> No marksheet found for Roll No: <b>' + roll + '</b>');
+        alert("No marksheet found for Roll Number: " + roll);
         return;
       }
 
@@ -320,7 +188,6 @@
       var img = new Image();
       img.onload = function() {
         $("#imgsrc").attr('src', candidateUrl);
-        $("#statusLabel").html('<i class="fa fa-check-circle" style="color: #2e7d32;"></i> Displaying Marksheet for Roll No: <b>' + roll + '</b>');
       };
       img.onerror = function() {
         checkCandidate(index + 1);
