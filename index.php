@@ -1,9 +1,11 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>Photo Search | BRAJ SAGAR DEGREE COLLEGE</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style type="text/css">
     @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese");
 
@@ -110,6 +112,33 @@
       padding: 15px;
       min-height: 420px;
     }
+    .action-toolbar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #edf2f5;
+    }
+    .btn-print {
+      height: 38px;
+      border-radius: 3px;
+      border: 1px solid #158fb9;
+      background: #158fb9;
+      color: #fff;
+      font-size: 13.5px;
+      font-weight: 600;
+      padding: 0 16px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.2s;
+    }
+    .btn-print:hover {
+      background: #0e334e;
+      border-color: #0e334e;
+    }
     .image-box {
       width: 100%;
       height: auto;
@@ -124,6 +153,52 @@
       height: auto;
       display: block;
       margin: 0 auto;
+    }
+
+    /* Print / PDF Default Landscape 1-Page Format */
+    @page {
+      size: landscape;
+      margin: 0;
+    }
+    @media print {
+      html, body {
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #fff !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        overflow: hidden !important;
+      }
+      .main-container, .inner-container, .preview-mn-div, .preview-innr-div, .image-box {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100vh !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+      }
+      h1, .search-box-mndiv, .action-toolbar {
+        display: none !important;
+      }
+      .image-box img {
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        width: auto !important;
+        height: auto !important;
+        object-fit: contain !important;
+        display: block !important;
+        margin: auto !important;
+        page-break-inside: avoid !important;
+        page-break-after: avoid !important;
+        page-break-before: avoid !important;
+      }
     }
   </style>
 </head>
@@ -146,8 +221,15 @@
       </div>
       <div class="preview-mn-div">
         <div class="preview-innr-div">
+          <!-- Print Toolbar (matches design, hidden in print output) -->
+          <div class="action-toolbar" id="toolbarPrint">
+            <button type="button" onclick="printMarksheet();" class="btn-print" title="Print or Save as PDF in Landscape">
+              <i class="fa fa-print"></i> Print / Save as PDF
+            </button>
+          </div>
+
           <div id="imageContainer" class="image-box">
-            <!-- Displays noimage.jpg (Results magnifying glass) by default -->
+            <!-- Displays noimage.jpg by default -->
             <img id="imgsrc" src="img/noimage.jpg" alt="Result">
           </div>
         </div>
@@ -178,7 +260,6 @@
 
     function checkCandidate(index) {
       if (index >= candidates.length) {
-        // Fallback to noimage.jpg if not found
         $("#imgsrc").attr('src', 'img/noimage.jpg');
         alert("No marksheet found for Roll Number: " + roll);
         return;
@@ -196,6 +277,16 @@
     }
 
     checkCandidate(0);
+  }
+
+  function printMarksheet() {
+    var imgSrc = document.getElementById("imgsrc").getAttribute("src");
+    if (!imgSrc || imgSrc.indexOf("noimage.jpg") !== -1) {
+      alert("Please search a student Roll Number before printing.");
+      $("#serachimages").focus();
+      return;
+    }
+    window.print();
   }
 
   document.getElementById("serachimages").addEventListener("keypress", function(e) {
